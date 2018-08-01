@@ -12,9 +12,19 @@ var app = {
             }
         });
     },
+    showAlert: function(msg,title){
+        if(navigator.notification){
+            navigator.notification.alert(msg, null, title, 'OK');
+        }else{
+            alert(title ? (title + ": " + msg) : msg );
+        }
+    },
 
     initialize: function() {
-        this.store = new MemoryStore();
+        var self = this;
+        this.store = new MemoryStore(function(){
+            self.showAlert('Store Initialized','Info');
+        });
         $('.search-key').on('keyup', $.proxy(this.findByName, this));
     }
 
